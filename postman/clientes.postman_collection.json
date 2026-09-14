@@ -1,0 +1,181 @@
+{
+  "info": {
+    "name": "Clientes — endpoints da aula",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Execute as cinco primeiras requisições na ordem. Salvar guarda o ID retornado; excluir remove o cliente de demonstração."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "clienteId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 — Salvar cliente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/clientes/salvar-cliente",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Cliente Teste\",\n  \"tipoPessoa\": \"PF\",\n  \"cpfCnpj\": \"11111111112\",\n  \"telefone\": \"44999999999\",\n  \"email\": \"cliente@example.com\",\n  \"logradouro\": \"Avenida Teste\",\n  \"numero\": \"S/N\",\n  \"bairro\": \"Centro\",\n  \"cep\": \"00000000\",\n  \"cidade\": {\n    \"id\": 3040\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "if (pm.response.code === 200) { pm.collectionVariables.set(\"clienteId\", pm.response.json().id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 — Listar clientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/clientes/listar-clientes"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 — Buscar cliente por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/clientes/buscar-cliente/{{clienteId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 — Atualizar cliente",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/clientes/atualizar-cliente/{{clienteId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Cliente Atualizado\",\n  \"tipoPessoa\": \"PF\",\n  \"cpfCnpj\": \"11111111112\",\n  \"telefone\": \"44988888888\",\n  \"email\": \"cliente@example.com\",\n  \"logradouro\": \"Avenida Teste\",\n  \"numero\": \"S/N\",\n  \"bairro\": \"Centro\",\n  \"cep\": \"00000000\",\n  \"cidade\": {\n    \"id\": 3040\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 — Excluir cliente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/clientes/deletar-cliente/{{clienteId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 — Buscar cidade por código IBGE",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/cidades/buscar-codigo-ibge/4118402"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 — Buscar cidade por nome",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/cidades/buscar-cidade-por-nome/Paranava"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
